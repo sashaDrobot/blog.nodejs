@@ -3,16 +3,18 @@ const Schema = mongoose.Schema;
 
 const schema = new Schema(
     {
-        title: {
+        login: {
+            type: String,
+            required: true,
+            unique: true
+        },
+        password: {
             type: String,
             required: true
-        },
-        body: {
-            type: String
         },
     },
     {
         timestamps: true
     });
 
-module.exports = mongoose.model('Post', schema);
+module.exports = mongoose.model('User', schema);
