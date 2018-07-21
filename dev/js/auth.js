@@ -50,10 +50,40 @@ $(function () {
                     });
                 }
             } else {
+                $('input').val('');
                 $('.register h5').after('<div class="alert alert-success" role="alert">Вы зарегестрированны!</div>');
+                $(location).attr('href', '/');
             }
         })
     });
+
+    $('.login-btn').on('click', function (e) {
+        e.preventDefault();
+
+        var data = {
+            login: $('#login-login').val(),
+            password: $('#login-password').val(),
+        };
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            url: '/auth/login'
+        }).done(function (data) {
+            if (!data.ok) {
+                $('.login h5').after('<div class="alert alert-danger" role="alert">' + data.error + '</div>');
+                if (data.fields) {
+                    data.fields.forEach(function(item) {
+                        $('input[name=' + item + ']').addClass('is-invalid');
+                    });
+                }
+            } else {
+                $('input').val('');
+                $('.login h5').after('<div class="alert alert-success" role="alert">Отлично!</div>');
+                $(location).attr('href', '/');
+            }
+        })
+    })
 });
 
 /* eslint-enable no-undef */
